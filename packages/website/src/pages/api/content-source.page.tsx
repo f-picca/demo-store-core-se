@@ -52,7 +52,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
     const edgeConfigId = process.env.VERCEL_EDGE_CONFIG_ID
     const token = process.env.VERCEL_API_TOKEN
-    const itemKey = process.env.VERCEL_EDGE_CONFIG_ITEM_KEY || ACTIVE_CONTENT_SOURCE_KEY
+    const itemKey = ACTIVE_CONTENT_SOURCE_KEY
     const teamId = process.env.VERCEL_TEAM_ID
 
     if (!edgeConfigId || !token) {

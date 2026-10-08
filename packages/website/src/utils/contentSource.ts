@@ -18,8 +18,12 @@ export const DEFAULT_CONTENT_SOURCE: ContentSource = isContentSource(process.env
   ? process.env.CONTENT_SOURCE_DEFAULT
   : 'sanity'
 
-/** Edge Config key holding the currently active content source. */
-export const ACTIVE_CONTENT_SOURCE_KEY = 'activeContentSource'
+/**
+ * Global Config key holding the currently active content source. Override with
+ * `VERCEL_EDGE_CONFIG_ITEM_KEY` so several demos can share one store, each
+ * with its own key.
+ */
+export const ACTIVE_CONTENT_SOURCE_KEY = process.env.VERCEL_EDGE_CONFIG_ITEM_KEY || 'activeContentSource'
 
 export function isContentSource(value: unknown): value is ContentSource {
   return value === 'sanity' || value === 'contentful'
@@ -90,7 +94,7 @@ async function readFromManagementApi(): Promise<ContentSource | null> {
     return null
   }
 
-  const itemKey = process.env.VERCEL_EDGE_CONFIG_ITEM_KEY || ACTIVE_CONTENT_SOURCE_KEY
+  const itemKey = ACTIVE_CONTENT_SOURCE_KEY
   const url = new URL(`https://api.vercel.com/v1/global-config/${edgeConfigId}/item/${itemKey}`)
   if (process.env.VERCEL_TEAM_ID) {
     url.searchParams.set('teamId', process.env.VERCEL_TEAM_ID)
