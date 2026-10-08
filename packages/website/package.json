@@ -22,10 +22,11 @@
   "dependencies": {
     "@commercelayer/demo-store-types": "^6.0.0",
     "@commercelayer/js-auth": "^8.0.1",
-    "@commercelayer/react-components": "4.28.8",
+    "@commercelayer/react-components": "4.29.8-beta.1",
     "@commercelayer/sdk": "6.52.0",
     "@svgr/webpack": "^8.1.0",
     "@types/lodash": "^4.17.25",
+    "@vercel/edge-config": "^1.5.0",
     "fuse.js": "^7.5.0",
     "immer": "^11.1.21",
     "lodash": "^4.18.1",

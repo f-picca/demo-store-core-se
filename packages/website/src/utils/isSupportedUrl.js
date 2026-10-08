@@ -1,3 +1,3 @@
 module.exports = {
-  isSupportedUrl: (url) => url.indexOf('://') > 0
+  isSupportedUrl: (url) => typeof url === 'string' && url.indexOf('://') > 0
 }

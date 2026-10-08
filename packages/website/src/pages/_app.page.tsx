@@ -1,4 +1,5 @@
 import { Auth } from '#components/Auth'
+import { ContentSourceSwitcher } from '#components/ContentSourceSwitcher'
 import { type SettingsContext, SettingsProvider } from '#contexts/SettingsContext'
 import { I18nProvider } from 'next-localization'
 import type { AppProps } from 'next/app'
@@ -29,7 +30,10 @@ export default function MyApp({ Component, pageProps }: AppProps<PageProps>) {
 
   if (!isSettingsContext(settingsContext)) {
     return (
-      <Component {...rest} />
+      <>
+        <Component {...rest} />
+        <ContentSourceSwitcher />
+      </>
     )
   }
 
@@ -38,6 +42,7 @@ export default function MyApp({ Component, pageProps }: AppProps<PageProps>) {
       <SettingsProvider {...settingsContext}>
         <I18nProvider lngDict={lngDict} locale={settingsContext.locale.code}>
           <Component {...rest} />
+          <ContentSourceSwitcher />
         </I18nProvider>
       </SettingsProvider>
     )
@@ -49,6 +54,7 @@ export default function MyApp({ Component, pageProps }: AppProps<PageProps>) {
         <Auth locale={settingsContext.locale}>
           <Component {...rest} />
         </Auth>
+        <ContentSourceSwitcher />
       </I18nProvider>
     </SettingsProvider>
   )

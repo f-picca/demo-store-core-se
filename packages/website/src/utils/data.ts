@@ -1,17 +1,26 @@
+import { getActiveJsonDataFolder } from '#utils/contentSource'
 import { isSupportedUrl } from '#utils/isSupportedUrl'
 
 /**
  * Fetch JSON from `data` folder.
+ *
+ * The base folder is resolved per call from the active content source (Sanity
+ * ⇄ Contentful, held in Edge Config) rather than the build-time env var, so the
+ * presenter can switch datasets live with no rebuild/redeploy. In SSR this runs
+ * on every request; in SSG it resolves at build time to the active source.
+ *
  * @param filename JSON filename that will be fetched.
  */
 export async function fetchJsonData(filename: string): Promise<unknown> {
   let data: unknown
 
-  if (isSupportedUrl(process.env.NEXT_PUBLIC_JSON_DATA_FOLDER)) {
-    data = fetch(`${process.env.NEXT_PUBLIC_JSON_DATA_FOLDER}/${filename}.json`)
+  const dataFolder = await getActiveJsonDataFolder()
+
+  if (isSupportedUrl(dataFolder)) {
+    data = fetch(`${dataFolder}/${filename}.json`)
       .then(response => response.json())
       .catch(error => {
-        console.error(`Cannot fetch "${process.env.NEXT_PUBLIC_JSON_DATA_FOLDER}/${filename}.json"`, error)
+        console.error(`Cannot fetch "${dataFolder}/${filename}.json"`, error)
         return null
       })
   } else {

@@ -6,6 +6,7 @@ import { withLocalePaths } from '#i18n/withLocalePaths'
 import { getRootNavigationLinks } from '#utils/catalog'
 import { getProductWithVariants, spreadProductVariants } from '#utils/products'
 import { productSlugRegExp } from '#config/general.config'
+import { storefrontCacheControl } from '#utils/cacheControl'
 import type { GetServerSideProps, GetStaticPaths, GetStaticProps } from 'next'
 import type { Props } from './ProductPageComponent'
 import { serverSideSettings } from '#contexts/SettingsContext'
@@ -66,10 +67,7 @@ export const getStaticProps: GetStaticProps<Props, Query> = async ({ params }) =
 }
 
 export const getServerSideProps: GetServerSideProps<Props, Query> = async ({ res, params }) => {
-  res.setHeader(
-    'Cache-Control',
-    'public, s-maxage=10, stale-while-revalidate=59'
-  )
+  res.setHeader('Cache-Control', storefrontCacheControl())
 
   return getStaticProps({ params })
 }
