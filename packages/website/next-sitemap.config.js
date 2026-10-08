@@ -1,8 +1,10 @@
 // @ts-check
 
+const { SITE_URL } = require('./src/utils/envs')
+
 /** @type {import('next-sitemap').IConfig} */
 const sitemapConfig = process.env.DISALLOW_ROBOTS === 'true' ? {
-  siteUrl: process.env.SITE_URL || '',
+  siteUrl: SITE_URL || '',
   exclude: ['*'],
   generateRobotsTxt: true,
   generateIndexSitemap: false,
@@ -19,7 +21,7 @@ const sitemapConfig = process.env.DISALLOW_ROBOTS === 'true' ? {
     ]
   }
 } : {
-  siteUrl: process.env.SITE_URL || '',
+  siteUrl: SITE_URL || '',
   sitemapSize: 7000,
   exclude: [
     '/*/search',

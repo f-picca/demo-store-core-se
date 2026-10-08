@@ -10,8 +10,21 @@ const getDataFetching = () => {
   return 'ssg'
 }
 
+/**
+ * Explicit `SITE_URL` wins. On Vercel, fall back to the system variables so
+ * previews get their stable branch URL and production its production domain,
+ * with no per-deployment configuration.
+ */
+const getVercelUrl = () => {
+  const host = process.env.VERCEL_ENV === 'production'
+    ? process.env.VERCEL_PROJECT_PRODUCTION_URL
+    : process.env.VERCEL_BRANCH_URL || process.env.VERCEL_URL
+
+  return host ? `https://${host}` : undefined
+}
+
 const getSiteUrl = () => {
-  const SITE_URL = process.env.SITE_URL
+  const SITE_URL = process.env.SITE_URL || getVercelUrl()
   if (SITE_URL === undefined) {
     return
   }
