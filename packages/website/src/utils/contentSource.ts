@@ -1,4 +1,4 @@
-import { get } from '@vercel/edge-config'
+import { get } from '@vercel/global-config'
 
 /**
  * The two content sources the storefront can read from. Both point at an
@@ -69,7 +69,7 @@ async function readActiveContentSource(): Promise<ContentSource> {
   }
 
   // Fallback: eventually-consistent SDK read (no API token configured).
-  if (process.env.EDGE_CONFIG) {
+  if (process.env.GLOBAL_CONFIG || process.env.EDGE_CONFIG) {
     try {
       const value = await get(ACTIVE_CONTENT_SOURCE_KEY)
       if (isContentSource(value)) {
